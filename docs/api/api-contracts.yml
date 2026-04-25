@@ -1,0 +1,118 @@
+openapi: 3.0.0
+info:
+  title: API de Usuarios - Examen Arquitectura
+  description: Definición de endpoints para el sistema móvil desarrollado en Kotlin.
+  version: 1.0.0
+
+paths:
+  /api/v1/users/register:
+    post:
+      summary: Registro de Nuevo Usuario
+      description: Permite registrar una nueva persona en el sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistrationRequest'
+      responses:
+        '201':
+          description: Usuario creado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Datos inválidos.
+
+  /api/v1/users/update/{id}:
+    put:
+      summary: Actualización de Perfil de Usuario
+      description: Modifica la información existente de un usuario por su ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID único del usuario.
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateRequest'
+      responses:
+        '200':
+          description: Perfil actualizado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdateResponse'
+        '404':
+          description: Usuario no encontrado.
+
+components:
+  schemas:
+    UserRegistrationRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: "Adam"
+        lastName:
+          type: string
+          example: "Acuña González"
+        email:
+          type: string
+          example: "adam.acuna@est.una.cr"
+        password:
+          type: string
+          format: password
+          example: "Password123!"
+
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 101
+        firstName:
+          type: string
+          example: "Adam"
+        email:
+          type: string
+          example: "adam.acuna@est.una.cr"
+        message:
+          type: string
+          example: "User created successfully"
+
+    UserUpdateRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: "Adam"
+        lastName:
+          type: string
+          example: "Acuña G."
+        phoneNumber:
+          type: string
+          example: "8888-8888"
+
+    UserUpdateResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 101
+        firstName:
+          type: string
+          example: "Adam"
+        lastName:
+          type: string
+          example: "Acuña G."
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2026-04-25T10:30:00Z"
